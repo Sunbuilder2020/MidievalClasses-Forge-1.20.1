@@ -11,6 +11,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.sunbuilder2020.midieval_classes.classes.PlayerClasses;
 import net.sunbuilder2020.midieval_classes.classes.PlayerClassesProvider;
 import net.sunbuilder2020.midieval_classes.networking.ModMessages;
 import net.sunbuilder2020.midieval_classes.networking.packet.SetClassC2SPacket;
@@ -43,8 +44,16 @@ public class CustomCommands {
     }
 
     private static int executeSetClass(CommandContext<CommandSourceStack> context, ServerPlayer player, String option) {
-        ModMessages.sendToServer(new SetClassC2SPacket(option));
-        context.getSource().sendSystemMessage(Component.literal(player.getName().getString() + "'s Profession is now set to " + option));
+        player.getCapability(PlayerClassesProvider.PLAYER_CLASSES).ifPresent(classes -> {
+            String newPlayerClass = "";
+
+            switch (option) {
+                case "paladin" -> newPlayerClass = classes.PaladinClassID;
+                case "jester" -> newPlayerClass = classes.JesterClassID;
+            }
+            ModMessages.sendToServer(new SetClassC2SPacket(newPlayerClass));
+            context.getSource().sendSystemMessage(Component.literal(player.getName().getString() + "'s Profession is now set to " + option));
+        });
 
         return 1;
     }

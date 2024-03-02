@@ -29,13 +29,11 @@ public class ClassManager {
             String playerClass = classes.getClasses();
 
             clearPlayerClassAttributes(player);
-            switch (playerClass) {
-                case "paladin" -> {
-                    PaladinClass.applyClassChanges(player);
-                    break;
-                } case "jester" -> {
-                    break;
-                }
+
+            if(classes.isClass(classes.PaladinClassID)) {
+                PaladinClass.applyClassChanges(player);
+            } else if(classes.isClass(classes.JesterClassID)) {
+
             }
         });
     }

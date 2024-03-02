@@ -3,6 +3,8 @@ package net.sunbuilder2020.midieval_classes.classes;
 import net.minecraft.nbt.CompoundTag;
 
 public class PlayerClasses {
+    public String PaladinClassID = "PaladinClass";
+    public String JesterClassID = "JesterClass";
     private String classes = "";
 
     public String getClasses() {
@@ -11,6 +13,10 @@ public class PlayerClasses {
 
     public void setClass(String classes) {
         this.classes = classes;
+    }
+
+    public boolean isClass(String classes) {
+        return this.classes.equals(classes);
     }
 
     public void copyFrom(PlayerClasses source) {
