@@ -52,7 +52,7 @@ public class PaladinClass {
             attackDamageAttribute.removeModifier(ClassManager.CLASS_ATTRIBUTE_MODIFIER_ID);
         }
 
-        AttributeModifier modifier = new AttributeModifier(ClassManager.CLASS_ATTRIBUTE_MODIFIER_ID, "class_damage_bonus", 2, AttributeModifier.Operation.ADDITION);
+        AttributeModifier modifier = new AttributeModifier(ClassManager.CLASS_ATTRIBUTE_MODIFIER_ID, "paladin_class_damage_bonus", 2, AttributeModifier.Operation.ADDITION);
         attackDamageAttribute.addTransientModifier(modifier);
     }
 
