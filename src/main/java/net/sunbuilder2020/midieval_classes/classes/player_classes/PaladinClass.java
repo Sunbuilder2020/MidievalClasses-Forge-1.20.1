@@ -20,7 +20,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.sunbuilder2020.midieval_classes.MidievalClasses;
 import net.sunbuilder2020.midieval_classes.classes.ClassManager;
 import net.sunbuilder2020.midieval_classes.classes.PlayerClassesProvider;
-import net.sunbuilder2020.midieval_classes.player_teams.EntityRelationshipTracker;
+import net.sunbuilder2020.midieval_classes.player_hostility.EntityRelationshipTracker;
 
 import java.util.HashMap;
 import java.util.List;
@@ -37,7 +37,7 @@ public class PaladinClass {
         -makes each of his armor pieces have a 50% change to take 1 Durability damage more when hit
     */
 
-    //Not Working: Attribute
+    //Protecting Circle vanishing too slowly
 
     private static final Map<UUID, TargetedAreaEntity> entityTrackingMap = new HashMap<>();
 
@@ -63,7 +63,7 @@ public class PaladinClass {
 
         if(target instanceof Player) {
             target.getCapability(PlayerClassesProvider.PLAYER_CLASSES).ifPresent(classes -> {
-                if(classes.isClass(classes.PaladinClassID)) {
+                if(classes.isClass(ClassManager.PaladinClassID)) {
                     event.setAmount((float) (event.getAmount() * 0.95));
                 }
             });
@@ -92,9 +92,9 @@ public class PaladinClass {
             for (Player player : playersWithinBox) {
                 if (player.distanceToSqr(target.getX(), target.getY(), target.getZ()) <= radius * radius) {
                     player.getCapability(PlayerClassesProvider.PLAYER_CLASSES).ifPresent(playerClasses -> {
-                        if(playerClasses.isClass(playerClasses.PaladinClassID)) {
+                        if(playerClasses.isClass(ClassManager.PaladinClassID)) {
                             if (EntityRelationshipTracker.isFriendly(player, target) && !player.equals(target)) {
-                                event.setAmount((float) (event.getAmount() * 0.5));
+                                event.setAmount((float) (event.getAmount() * 0.9));
                             }
                         }
                     });
@@ -115,7 +115,7 @@ public class PaladinClass {
         }
 
         player.getCapability(PlayerClassesProvider.PLAYER_CLASSES).ifPresent(classes -> {
-            if (classes.isClass(classes.PaladinClassID)) {
+            if (classes.isClass(ClassManager.PaladinClassID)) {
                 handleTargetedAreaEntityForPaladin(player);
             }
         });

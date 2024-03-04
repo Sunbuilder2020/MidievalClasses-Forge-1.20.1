@@ -1,4 +1,4 @@
-package net.sunbuilder2020.midieval_classes.player_teams;
+package net.sunbuilder2020.midieval_classes.player_hostility;
 
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;

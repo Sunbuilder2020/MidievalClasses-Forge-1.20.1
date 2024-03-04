@@ -11,6 +11,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.sunbuilder2020.midieval_classes.classes.ClassManager;
 import net.sunbuilder2020.midieval_classes.classes.PlayerClasses;
 import net.sunbuilder2020.midieval_classes.classes.PlayerClassesProvider;
 import net.sunbuilder2020.midieval_classes.networking.ModMessages;
@@ -30,7 +31,7 @@ public class CustomCommands {
                         .then(Commands.literal("set")
                                 .then(Commands.argument("playerName", EntityArgument.player())
                                         .then(Commands.argument("option", StringArgumentType.word())
-                                                .suggests((context, builder) -> builder.suggest("paladin").suggest("jester").buildFuture())
+                                                .suggests((context, builder) -> builder.suggest("paladin").suggest("thief").buildFuture())
                                                 .executes(context -> executeSetClass(context, EntityArgument.getPlayer(context, "playerName"), StringArgumentType.getString(context, "option")))))));
     }
 
@@ -44,16 +45,14 @@ public class CustomCommands {
     }
 
     private static int executeSetClass(CommandContext<CommandSourceStack> context, ServerPlayer player, String option) {
-        player.getCapability(PlayerClassesProvider.PLAYER_CLASSES).ifPresent(classes -> {
-            String newPlayerClass = "";
+        String newPlayerClass = "";
 
-            switch (option) {
-                case "paladin" -> newPlayerClass = classes.PaladinClassID;
-                case "jester" -> newPlayerClass = classes.JesterClassID;
-            }
-            ModMessages.sendToServer(new SetClassC2SPacket(newPlayerClass));
-            context.getSource().sendSystemMessage(Component.literal(player.getName().getString() + "'s Profession is now set to " + option));
-        });
+        switch (option) {
+            case "paladin" -> newPlayerClass = ClassManager.PaladinClassID;
+            case "thief" -> newPlayerClass = ClassManager.ThiefClassID;
+        }
+        ModMessages.sendToServer(new SetClassC2SPacket(newPlayerClass));
+        context.getSource().sendSystemMessage(Component.literal(player.getName().getString() + "'s Profession is now set to " + option));
 
         return 1;
     }
