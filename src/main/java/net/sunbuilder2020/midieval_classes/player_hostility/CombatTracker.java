@@ -4,10 +4,13 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
+import net.sunbuilder2020.midieval_classes.MidievalClasses;
 
 import java.util.HashMap;
 import java.util.Map;
 
+@Mod.EventBusSubscriber(modid = MidievalClasses.MOD_ID)
 public class CombatTracker {
     private static final Map<Player, Long> lastCombatTimes = new HashMap<>();
 
@@ -21,7 +24,7 @@ public class CombatTracker {
 
     @SubscribeEvent
     public static void onPlayerHurt(LivingHurtEvent event) {
-        if (event.getEntity() instanceof Player) {
+        if (event.getEntity() instanceof Player && event.getSource().getEntity() != null) {
             Player player = (Player) event.getEntity();
             CombatTracker.recordCombatInteraction(player);
         }

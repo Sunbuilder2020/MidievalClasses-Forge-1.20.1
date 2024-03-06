@@ -9,6 +9,7 @@ import net.minecraftforge.network.simple.SimpleChannel;
 import net.sunbuilder2020.midieval_classes.MidievalClasses;
 import net.sunbuilder2020.midieval_classes.networking.packet.ClassDataSyncS2CPacket;
 import net.sunbuilder2020.midieval_classes.networking.packet.SetClassC2SPacket;
+import net.sunbuilder2020.midieval_classes.networking.packet.SpawnFireExplosionS2CPacket;
 
 public class ModMessages {
     private static SimpleChannel Instance;
@@ -37,6 +38,12 @@ public class ModMessages {
                 .decoder(buf -> new SetClassC2SPacket(buf))
                 .encoder(SetClassC2SPacket::toBytes)
                 .consumerMainThread(SetClassC2SPacket::handle)
+                .add();
+
+        net.messageBuilder(SpawnFireExplosionS2CPacket.class, ID(), NetworkDirection.PLAY_TO_CLIENT)
+                .decoder(buf -> new SpawnFireExplosionS2CPacket(buf))
+                .encoder(SpawnFireExplosionS2CPacket::toBytes)
+                .consumerMainThread(SpawnFireExplosionS2CPacket::handle)
                 .add();
 
     }

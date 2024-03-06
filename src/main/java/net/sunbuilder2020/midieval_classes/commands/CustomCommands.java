@@ -31,7 +31,7 @@ public class CustomCommands {
                         .then(Commands.literal("set")
                                 .then(Commands.argument("playerName", EntityArgument.player())
                                         .then(Commands.argument("option", StringArgumentType.word())
-                                                .suggests((context, builder) -> builder.suggest("paladin").suggest("thief").buildFuture())
+                                                .suggests((context, builder) -> builder.suggest("paladin").suggest("thief").suggest("blacksmith").buildFuture())
                                                 .executes(context -> executeSetClass(context, EntityArgument.getPlayer(context, "playerName"), StringArgumentType.getString(context, "option")))))));
     }
 
@@ -50,6 +50,8 @@ public class CustomCommands {
         switch (option) {
             case "paladin" -> newPlayerClass = ClassManager.PaladinClassID;
             case "thief" -> newPlayerClass = ClassManager.ThiefClassID;
+            case "blacksmith" -> newPlayerClass = ClassManager.BlacksmithClassID;
+
         }
         ModMessages.sendToServer(new SetClassC2SPacket(newPlayerClass));
         context.getSource().sendSystemMessage(Component.literal(player.getName().getString() + "'s Profession is now set to " + option));

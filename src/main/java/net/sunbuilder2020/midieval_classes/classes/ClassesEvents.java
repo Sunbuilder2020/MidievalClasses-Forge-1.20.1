@@ -1,5 +1,6 @@
 package net.sunbuilder2020.midieval_classes.classes;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -15,6 +16,9 @@ import net.sunbuilder2020.midieval_classes.MidievalClasses;
 import net.sunbuilder2020.midieval_classes.networking.ModMessages;
 import net.sunbuilder2020.midieval_classes.networking.packet.ClassDataSyncS2CPacket;
 import net.sunbuilder2020.midieval_classes.networking.packet.SetClassC2SPacket;
+
+import java.util.Random;
+import java.util.logging.Level;
 
 @Mod.EventBusSubscriber(modid = MidievalClasses.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ClassesEvents {

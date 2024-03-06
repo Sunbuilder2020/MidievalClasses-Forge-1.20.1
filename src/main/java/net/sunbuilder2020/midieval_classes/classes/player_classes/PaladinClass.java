@@ -29,15 +29,13 @@ import java.util.UUID;
 
 @Mod.EventBusSubscriber(modid = MidievalClasses.MOD_ID)
 public class PaladinClass {
-    /*
+    /**
     Paladin Class Abilities:
         -deals +2 Damage
         -takes -5% Damage
-        -reduces Damage dealt to all friendly players in a 10 Block radius
+        -reduces Damage dealt to all friendly players in a 10 Block radius by 10%
         -makes each of his armor pieces have a 50% change to take 1 Durability damage more when hit
     */
-
-    //Protecting Circle vanishing too slowly
 
     private static final Map<UUID, TargetedAreaEntity> entityTrackingMap = new HashMap<>();
 
@@ -134,7 +132,7 @@ public class PaladinClass {
         float radius = 10.0F;
         int color = 16239960;
         TargetedAreaEntity newEntity = TargetedAreaEntity.createTargetAreaEntity(level, center, radius, color, player);
-
+        newEntity.setDuration(2);
         updateEntityTrackingForPlayer(playerUUID, newEntity);
     }
 

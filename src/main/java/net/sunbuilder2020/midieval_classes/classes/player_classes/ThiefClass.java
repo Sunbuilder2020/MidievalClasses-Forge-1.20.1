@@ -19,15 +19,15 @@ import net.sunbuilder2020.midieval_classes.player_hostility.CombatTracker;
 
 @Mod.EventBusSubscriber(modid = MidievalClasses.MOD_ID)
 public class ThiefClass {
-    /*
+    /**
     Thief Class Abilities:
         -Gets True Invisibility while sneaking and not in combat
-        -Temporarily gets faster after being hit
-        -Has faster attack speed
-        -Has reduced armor
+        -Temporarily gets speed 1 after being hit
+        -Has +0.3 attack speed
+        -Has -20% armor
     */
 
-    //To Fix: Invisibility still applying when in combat, Particles of other Effects not hiding when Invisible
+    //To Fix: Particles of other Effects not hiding when Invisible
 
     public static void applyClassChanges(Player player) {
         setPlayerAttributes(player);
@@ -55,7 +55,7 @@ public class ThiefClass {
         event.player.getCapability(PlayerClassesProvider.PLAYER_CLASSES).ifPresent(classes -> {
             if (classes.isClass(ClassManager.ThiefClassID)) {
                 if (event.player.isShiftKeyDown() && !CombatTracker.isInCombat(event.player)) {
-                    event.player.addEffect(new MobEffectInstance(MobEffectRegistry.TRUE_INVISIBILITY.get(), 5, 0, false, false, true));
+                    event.player.addEffect(new MobEffectInstance(MobEffectRegistry.TRUE_INVISIBILITY.get(), 3, 0, false, false, true));
                 }
             }
         });
@@ -63,7 +63,7 @@ public class ThiefClass {
 
     @SubscribeEvent
     public static void onLivingHurt(LivingHurtEvent event) {
-        if (event.getEntity() instanceof Player) {
+        if (event.getEntity() instanceof Player && event.getSource().getEntity() != null) {
             event.getEntity().getCapability(PlayerClassesProvider.PLAYER_CLASSES).ifPresent(classes -> {
                 if (classes.isClass(ClassManager.ThiefClassID)) {
                     event.getEntity().addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 100));
