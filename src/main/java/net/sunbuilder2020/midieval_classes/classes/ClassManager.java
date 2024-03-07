@@ -1,5 +1,6 @@
 package net.sunbuilder2020.midieval_classes.classes;
 
+import io.redspace.ironsspellbooks.api.registry.AttributeRegistry;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -8,10 +9,7 @@ import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.sunbuilder2020.midieval_classes.MidievalClasses;
-import net.sunbuilder2020.midieval_classes.classes.player_classes.BlacksmithClass;
-import net.sunbuilder2020.midieval_classes.classes.player_classes.DwarfClass;
-import net.sunbuilder2020.midieval_classes.classes.player_classes.PaladinClass;
-import net.sunbuilder2020.midieval_classes.classes.player_classes.ThiefClass;
+import net.sunbuilder2020.midieval_classes.classes.player_classes.*;
 import net.sunbuilder2020.midieval_classes.networking.ModMessages;
 import net.sunbuilder2020.midieval_classes.networking.packet.ClassDataSyncS2CPacket;
 import virtuoel.pehkui.api.ScaleData;
@@ -25,6 +23,7 @@ public class ClassManager {
     public static String ThiefClassID = "ThiefClass";
     public static String BlacksmithClassID = "BlacksmithClass";
     public static String DwarfClassID = "DwarfClass";
+    public static String MonkClassID = "MonkClass";
     public static final UUID CLASS_ATTRIBUTE_MODIFIER_ID = UUID.fromString("1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6d");
 
     public static void applyClassChanges(Player player) {
@@ -41,6 +40,8 @@ public class ClassManager {
                 BlacksmithClass.applyClassChanges(player);
             } else if(classes.isClass(DwarfClassID)) {
                 DwarfClass.applyClassChanges(player);
+            } else if(classes.isClass(MonkClassID)) {
+                MonkClass.applyClassChanges(player);
             }
         });
     }
@@ -58,6 +59,7 @@ public class ClassManager {
         AttributeInstance armorToughnessAttribute = player.getAttribute(Attributes.ARMOR_TOUGHNESS);
         AttributeInstance healthAttribute = player.getAttribute(Attributes.MAX_HEALTH);
         AttributeInstance speedAttribute = player.getAttribute(Attributes.MOVEMENT_SPEED);
+        AttributeInstance holySpellPowerAttribute = player.getAttribute(AttributeRegistry.HOLY_SPELL_POWER.get());
 
         if(attackDamageAttribute.getModifier(CLASS_ATTRIBUTE_MODIFIER_ID) != null) {
             attackDamageAttribute.removeModifier(CLASS_ATTRIBUTE_MODIFIER_ID);
@@ -73,6 +75,9 @@ public class ClassManager {
         }
         if(speedAttribute.getModifier(ClassManager.CLASS_ATTRIBUTE_MODIFIER_ID) != null) {
             speedAttribute.removeModifier(ClassManager.CLASS_ATTRIBUTE_MODIFIER_ID);
+        }
+        if (holySpellPowerAttribute.getModifier(ClassManager.CLASS_ATTRIBUTE_MODIFIER_ID) != null) {
+            holySpellPowerAttribute.removeModifier(ClassManager.CLASS_ATTRIBUTE_MODIFIER_ID);
         }
     }
 

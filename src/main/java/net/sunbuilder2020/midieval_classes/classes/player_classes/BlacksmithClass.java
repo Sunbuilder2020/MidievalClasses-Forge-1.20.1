@@ -73,7 +73,7 @@ public class BlacksmithClass {
 
     @SubscribeEvent
     public static void onLivingHurt(LivingHurtEvent event) {
-        if (event.getSource().getEntity() instanceof Player) {
+        if (event.getSource().getEntity() instanceof Player && event.getEntity().getRandom().nextDouble() <= 0.50D) {
             Player player = (Player) event.getSource().getEntity();
             LivingEntity entity = event.getEntity();
 
