@@ -9,10 +9,13 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.sunbuilder2020.midieval_classes.MidievalClasses;
 import net.sunbuilder2020.midieval_classes.classes.player_classes.BlacksmithClass;
+import net.sunbuilder2020.midieval_classes.classes.player_classes.DwarfClass;
 import net.sunbuilder2020.midieval_classes.classes.player_classes.PaladinClass;
 import net.sunbuilder2020.midieval_classes.classes.player_classes.ThiefClass;
 import net.sunbuilder2020.midieval_classes.networking.ModMessages;
 import net.sunbuilder2020.midieval_classes.networking.packet.ClassDataSyncS2CPacket;
+import virtuoel.pehkui.api.ScaleData;
+import virtuoel.pehkui.api.ScaleTypes;
 
 import java.util.UUID;
 
@@ -21,12 +24,14 @@ public class ClassManager {
     public static String PaladinClassID = "PaladinClass";
     public static String ThiefClassID = "ThiefClass";
     public static String BlacksmithClassID = "BlacksmithClass";
+    public static String DwarfClassID = "DwarfClass";
     public static final UUID CLASS_ATTRIBUTE_MODIFIER_ID = UUID.fromString("1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6d");
 
     public static void applyClassChanges(Player player) {
         player.getCapability(PlayerClassesProvider.PLAYER_CLASSES).ifPresent(classes -> {
 
             clearPlayerClassAttributes(player);
+            resetPlayerSize(player);
 
             if(classes.isClass(PaladinClassID)) {
                 PaladinClass.applyClassChanges(player);
@@ -34,6 +39,8 @@ public class ClassManager {
                 ThiefClass.applyClassChanges(player);
             } else if(classes.isClass(BlacksmithClassID)) {
                 BlacksmithClass.applyClassChanges(player);
+            } else if(classes.isClass(DwarfClassID)) {
+                DwarfClass.applyClassChanges(player);
             }
         });
     }
@@ -67,5 +74,27 @@ public class ClassManager {
         if(speedAttribute.getModifier(ClassManager.CLASS_ATTRIBUTE_MODIFIER_ID) != null) {
             speedAttribute.removeModifier(ClassManager.CLASS_ATTRIBUTE_MODIFIER_ID);
         }
+    }
+
+    public static void resetPlayerSize(Player player) {
+        ScaleData heightScaleData = ScaleTypes.HEIGHT.getScaleData(player);
+        ScaleData widthScaleData = ScaleTypes.WIDTH.getScaleData(player);
+        ScaleData motionScaleData = ScaleTypes.MOTION.getScaleData(player);
+        ScaleData reachScaleData = ScaleTypes.REACH.getScaleData(player);
+        ScaleData dropsScaleData = ScaleTypes.DROPS.getScaleData(player);
+        ScaleData heldItemScaleData = ScaleTypes.HELD_ITEM.getScaleData(player);
+        ScaleData projectilesScaleData = ScaleTypes.PROJECTILES.getScaleData(player);
+        ScaleData thirdPersonScaleData = ScaleTypes.THIRD_PERSON.getScaleData(player);
+        ScaleData visibilityScaleData = ScaleTypes.VISIBILITY.getScaleData(player);
+
+        heightScaleData.setScale(1.0F);
+        widthScaleData.setScale(1.0F);
+        motionScaleData.setScale(1.0F);
+        reachScaleData.setScale(1.0F);
+        dropsScaleData.setScale(1.0F);
+        heldItemScaleData.setScale(1.0F);
+        projectilesScaleData.setScale(1.0F);
+        thirdPersonScaleData.setScale(1.0F);
+        visibilityScaleData.setScale(1.0F);
     }
 }
