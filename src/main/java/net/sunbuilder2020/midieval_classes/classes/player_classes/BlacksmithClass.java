@@ -42,7 +42,7 @@ public class BlacksmithClass {
         -Has -15% % Speed
     */
 
-    //To Fix: Particles not spawning
+    //To Fix: Particles not spawning, Lighting up enemies with ranged attacks, not dealing extra Damage with "mega Punch"
 
     public static void applyClassChanges(Player player) {
         setPlayerAttributes(player);

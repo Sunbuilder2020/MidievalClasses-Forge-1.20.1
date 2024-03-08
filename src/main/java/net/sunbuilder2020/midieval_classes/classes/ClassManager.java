@@ -24,6 +24,7 @@ public class ClassManager {
     public static String BlacksmithClassID = "BlacksmithClass";
     public static String DwarfClassID = "DwarfClass";
     public static String MonkClassID = "MonkClass";
+    public static String ElveClassID = "ElveClass";
     public static final UUID CLASS_ATTRIBUTE_MODIFIER_ID = UUID.fromString("1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6d");
 
     public static void applyClassChanges(Player player) {
@@ -42,6 +43,8 @@ public class ClassManager {
                 DwarfClass.applyClassChanges(player);
             } else if(classes.isClass(MonkClassID)) {
                 MonkClass.applyClassChanges(player);
+            } else if(classes.isClass(ElveClassID)) {
+                ElveClass.applyClassChanges(player);
             }
         });
     }
@@ -85,6 +88,7 @@ public class ClassManager {
         ScaleData heightScaleData = ScaleTypes.HEIGHT.getScaleData(player);
         ScaleData widthScaleData = ScaleTypes.WIDTH.getScaleData(player);
         ScaleData motionScaleData = ScaleTypes.MOTION.getScaleData(player);
+        ScaleData stepHeightScaleData = ScaleTypes.STEP_HEIGHT.getScaleData(player);
         ScaleData reachScaleData = ScaleTypes.REACH.getScaleData(player);
         ScaleData dropsScaleData = ScaleTypes.DROPS.getScaleData(player);
         ScaleData heldItemScaleData = ScaleTypes.HELD_ITEM.getScaleData(player);
@@ -95,6 +99,7 @@ public class ClassManager {
         heightScaleData.setScale(1.0F);
         widthScaleData.setScale(1.0F);
         motionScaleData.setScale(1.0F);
+        stepHeightScaleData.setScale(1.0F);
         reachScaleData.setScale(1.0F);
         dropsScaleData.setScale(1.0F);
         heldItemScaleData.setScale(1.0F);
