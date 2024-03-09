@@ -65,7 +65,7 @@ public class DwarfClass {
             speedAttribute.removeModifier(ClassManager.CLASS_ATTRIBUTE_MODIFIER_ID);
         }
 
-        AttributeModifier modifier = new AttributeModifier(ClassManager.CLASS_ATTRIBUTE_MODIFIER_ID, "dwarf_class_speed_bonus", -0.2, AttributeModifier.Operation.MULTIPLY_TOTAL);
+        AttributeModifier modifier = new AttributeModifier(ClassManager.CLASS_ATTRIBUTE_MODIFIER_ID, "dwarf_class_speed_reduction", -0.2, AttributeModifier.Operation.MULTIPLY_TOTAL);
         speedAttribute.addTransientModifier(modifier);
     }
 
