@@ -44,7 +44,7 @@ public class ThiefClass {
             attackSpeedAttribute.removeModifier(ClassManager.CLASS_ATTRIBUTE_MODIFIER_ID);
         }
 
-        AttributeModifier armorModifier = new AttributeModifier(ClassManager.CLASS_ATTRIBUTE_MODIFIER_ID, "thief_class_armor_reduction", 0.8, AttributeModifier.Operation.MULTIPLY_TOTAL);
+        AttributeModifier armorModifier = new AttributeModifier(ClassManager.CLASS_ATTRIBUTE_MODIFIER_ID, "thief_class_armor_reduction", -0.8, AttributeModifier.Operation.MULTIPLY_TOTAL);
         AttributeModifier attackSpeedModifier = new AttributeModifier(ClassManager.CLASS_ATTRIBUTE_MODIFIER_ID, "thief_class_attack_speed_bonus", 0.3, AttributeModifier.Operation.ADDITION);
         armorAttribute.addTransientModifier(armorModifier);
         attackSpeedAttribute.addTransientModifier(attackSpeedModifier);

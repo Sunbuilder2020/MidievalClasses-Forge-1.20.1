@@ -27,6 +27,7 @@ public class ClassManager {
     public static String ElveClassID = "ElveClass";
     public static String ExecutionerClassID = "ExecutionerClass";
     public static String ArcherClassID = "ArcherClass";
+    public static String WizardClassID = "WizardClass";
     public static final UUID CLASS_ATTRIBUTE_MODIFIER_ID = UUID.fromString("1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6d");
 
     public static void applyClassChanges(Player player) {
@@ -49,6 +50,8 @@ public class ClassManager {
                 ElveClass.applyClassChanges(player);
             } else if(classes.isClass(ArcherClassID)) {
                 ArcherClass.applyClassChanges(player);
+            } else if(classes.isClass(WizardClassID)) {
+                WizardClass.applyClassChanges(player);
             }
         });
     }
