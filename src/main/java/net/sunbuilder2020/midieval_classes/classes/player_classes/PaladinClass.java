@@ -33,7 +33,7 @@ public class PaladinClass {
     Paladin Class Abilities:
         -deals +2 Damage
         -takes -5% Damage
-        -reduces Damage dealt to all friendly players in a 10 Block radius by 10%
+        -reduces Damage dealt to all friendly entities in a 10 Block radius by 10%
         -makes each of his armor pieces have a 50% change to take 1 Durability damage more when hit
     */
 

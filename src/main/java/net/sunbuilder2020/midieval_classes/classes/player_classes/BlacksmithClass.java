@@ -2,11 +2,16 @@ package net.sunbuilder2020.midieval_classes.classes.player_classes;
 
 import io.redspace.ironsspellbooks.registries.MobEffectRegistry;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageType;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -42,7 +47,7 @@ public class BlacksmithClass {
         -Has -15% % Speed
     */
 
-    //To Fix: Particles not spawning, Lighting up enemies with ranged attacks, not dealing extra Damage with "mega Punch"
+    //To Fix: Particles not spawning
 
     public static void applyClassChanges(Player player) {
         setPlayerAttributes(player);
@@ -73,27 +78,24 @@ public class BlacksmithClass {
 
     @SubscribeEvent
     public static void onLivingHurt(LivingHurtEvent event) {
-        if (event.getSource().getEntity() instanceof Player && event.getEntity().getRandom().nextDouble() <= 0.50D) {
-            Player player = (Player) event.getSource().getEntity();
-            LivingEntity entity = event.getEntity();
-
+        if (event.getSource().getEntity() instanceof Player player && event.getEntity().getRandom().nextDouble() <= 0.50D && event.getSource().is(DamageTypes.PLAYER_ATTACK)) {
             player.getCapability(PlayerClassesProvider.PLAYER_CLASSES).ifPresent(classes -> {
                 if (classes.isClass(ClassManager.BlacksmithClassID)) {
-                    entity.setRemainingFireTicks(100);
+                    Entity entity = event.getEntity();
+
+                    event.getEntity().setRemainingFireTicks(100);
+                    event.setAmount(event.getAmount() + 4);
 
                     AABB searchArea = new AABB(
                             entity.getX() - 3.0, entity.getY() - 3.0, entity.getZ() - 3.0,
                             entity.getX() + 3.0, entity.getY() + 3.0, entity.getZ() + 3.0);
 
                     List<LivingEntity> nearbyEntities = player.level().getEntitiesOfClass(LivingEntity.class, searchArea);
-
                     for (LivingEntity target : nearbyEntities) {
-                        if(target != player) {
+                        if (target != player) {
                             target.setRemainingFireTicks(100);
                         }
                     }
-
-                    //ModMessages.sendToClient(new SpawnFireExplosionS2CPacket(entity), (ServerPlayer) player);
                 }
             });
         }

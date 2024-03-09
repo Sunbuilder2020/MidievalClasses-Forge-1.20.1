@@ -25,6 +25,7 @@ public class ClassManager {
     public static String DwarfClassID = "DwarfClass";
     public static String MonkClassID = "MonkClass";
     public static String ElveClassID = "ElveClass";
+    public static String ExecutionerClassID = "ExecutionerClass";
     public static final UUID CLASS_ATTRIBUTE_MODIFIER_ID = UUID.fromString("1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6d");
 
     public static void applyClassChanges(Player player) {
