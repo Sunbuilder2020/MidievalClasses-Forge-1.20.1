@@ -33,7 +33,7 @@ public class GiantClass {
     Dwarf Class Abilities:
         -is 3 Block tall
         -has +6 Damage
-        -has -0.7 Attack Speed
+        -has -50% Attack Speed
         -has +30% Speed
      */
 
@@ -58,7 +58,7 @@ public class GiantClass {
         }
 
         AttributeModifier speedModifier = new AttributeModifier(ClassManager.CLASS_ATTRIBUTE_MODIFIER_ID, "giant_class_speed_bonus", 0.3, AttributeModifier.Operation.MULTIPLY_TOTAL);
-        AttributeModifier attackSpeedModifier = new AttributeModifier(ClassManager.CLASS_ATTRIBUTE_MODIFIER_ID, "giant_class_attack_speed_reduction", -0.7, AttributeModifier.Operation.ADDITION);
+        AttributeModifier attackSpeedModifier = new AttributeModifier(ClassManager.CLASS_ATTRIBUTE_MODIFIER_ID, "giant_class_attack_speed_reduction", -0.5, AttributeModifier.Operation.MULTIPLY_TOTAL);
         AttributeModifier attackDamageModifier = new AttributeModifier(ClassManager.CLASS_ATTRIBUTE_MODIFIER_ID, "giant_class_attack_damage_bonus", 6, AttributeModifier.Operation.ADDITION);
         speedAttribute.addTransientModifier(speedModifier);
         attackSpeedAttribute.addTransientModifier(attackSpeedModifier);

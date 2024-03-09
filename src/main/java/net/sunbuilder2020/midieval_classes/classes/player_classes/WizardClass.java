@@ -59,7 +59,7 @@ public class WizardClass {
                 if (classes.isClass(ClassManager.WizardClassID) && player.getRandom().nextFloat() <= 0.30) {
                     LivingEntity entity = event.getEntity();
 
-                    addRandomEffect(player);
+                    addRandomEffect(entity);
                 }
             });
         }
