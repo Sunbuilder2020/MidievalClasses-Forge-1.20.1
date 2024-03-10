@@ -31,7 +31,7 @@ public class CustomCommands {
                         .then(Commands.literal("set")
                                 .then(Commands.argument("playerName", EntityArgument.player())
                                         .then(Commands.argument("option", StringArgumentType.word())
-                                                .suggests((context, builder) -> builder.suggest("paladin").suggest("giant").suggest("berserk").suggest("wizard").suggest("thief").suggest("archer").suggest("executioner").suggest("blacksmith").suggest("elve").suggest("monk").suggest("dwarf").buildFuture())
+                                                .suggests((context, builder) -> builder.suggest("paladin").suggest("giant").suggest("jester").suggest("berserk").suggest("wizard").suggest("thief").suggest("archer").suggest("executioner").suggest("blacksmith").suggest("elve").suggest("monk").suggest("dwarf").buildFuture())
                                                 .executes(context -> executeSetClass(context, EntityArgument.getPlayer(context, "playerName"), StringArgumentType.getString(context, "option")))))));
     }
 
@@ -59,6 +59,7 @@ public class CustomCommands {
             case "wizard" -> newPlayerClass = ClassManager.WizardClassID;
             case "giant" -> newPlayerClass = ClassManager.GiantClassID;
             case "berserk" -> newPlayerClass = ClassManager.BerserkClassID;
+            case "jester" -> newPlayerClass = ClassManager.JesterClassID;
         }
         ModMessages.sendToServer(new SetClassC2SPacket(newPlayerClass));
         context.getSource().sendSystemMessage(Component.literal(player.getName().getString() + "'s Profession is now set to " + option));

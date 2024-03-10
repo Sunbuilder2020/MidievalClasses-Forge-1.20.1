@@ -41,7 +41,7 @@ import java.util.logging.Level;
 public class BlacksmithClass {
     /**
     Blacksmith Class Abilities:
-        -May light the target and every nearby entity on fire and deal +4 Damage when hitting
+        -Has a 20% chance light the target and every nearby entity on fire and deal +4 Damage when hitting
         -Has +5 armor toughness
         -Has +6 Health
         -Has -15% % Speed
@@ -78,7 +78,7 @@ public class BlacksmithClass {
 
     @SubscribeEvent
     public static void onLivingHurt(LivingHurtEvent event) {
-        if (event.getSource().getEntity() instanceof Player player && event.getEntity().getRandom().nextDouble() <= 0.50D && event.getSource().is(DamageTypes.PLAYER_ATTACK)) {
+        if (event.getSource().getEntity() instanceof Player player && event.getEntity().getRandom().nextDouble() <= 0.20D && event.getSource().is(DamageTypes.PLAYER_ATTACK)) {
             player.getCapability(PlayerClassesProvider.PLAYER_CLASSES).ifPresent(classes -> {
                 if (classes.isClass(ClassManager.BlacksmithClassID)) {
                     Entity entity = event.getEntity();
