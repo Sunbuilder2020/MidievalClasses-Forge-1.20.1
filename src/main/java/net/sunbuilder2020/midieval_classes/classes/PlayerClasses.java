@@ -32,5 +32,4 @@ public class PlayerClasses {
             this.classes = "";
         }
     }
-
 }

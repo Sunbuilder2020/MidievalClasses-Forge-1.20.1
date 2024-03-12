@@ -15,7 +15,8 @@ import net.sunbuilder2020.midieval_classes.networking.packet.ClassDataSyncS2CPac
 import virtuoel.pehkui.api.ScaleData;
 import virtuoel.pehkui.api.ScaleTypes;
 
-import java.util.UUID;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Mod.EventBusSubscriber(modid = MidievalClasses.MOD_ID)
 public class ClassManager {
@@ -32,9 +33,11 @@ public class ClassManager {
     public static String BerserkClassID = "BerserkClass";
     public static String JesterClassID = "JesterClass";
     public static final UUID CLASS_ATTRIBUTE_MODIFIER_ID = UUID.fromString("1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6d");
+    public static final Map<UUID, String> PLAYER_CLASSES = new ConcurrentHashMap<>();
 
     public static void applyClassChanges(Player player) {
         player.getCapability(PlayerClassesProvider.PLAYER_CLASSES).ifPresent(classes -> {
+            PLAYER_CLASSES.put(player.getUUID(), classes.getClasses());
 
             clearPlayerClassAttributes(player);
             resetPlayerSize(player);
@@ -128,5 +131,14 @@ public class ClassManager {
         projectilesScaleData.setScale(1.0F);
         thirdPersonScaleData.setScale(1.0F);
         visibilityScaleData.setScale(1.0F);
+    }
+
+    public static String getRandomClass() {
+        List<String> classes = Arrays.asList(
+                PaladinClassID, ThiefClassID, BlacksmithClassID, DwarfClassID, MonkClassID, ElveClassID,
+                ExecutionerClassID, ArcherClassID, WizardClassID, GiantClassID, BerserkClassID, JesterClassID
+        );
+        Random rand = new Random();
+        return classes.get(rand.nextInt(classes.size()));
     }
 }
