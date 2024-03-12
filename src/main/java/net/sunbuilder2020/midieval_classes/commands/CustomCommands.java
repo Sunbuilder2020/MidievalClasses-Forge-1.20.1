@@ -8,14 +8,14 @@ import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.sunbuilder2020.midieval_classes.classes.ClassManager;
-import net.sunbuilder2020.midieval_classes.classes.PlayerClasses;
 import net.sunbuilder2020.midieval_classes.classes.PlayerClassesProvider;
 import net.sunbuilder2020.midieval_classes.networking.ModMessages;
-import net.sunbuilder2020.midieval_classes.networking.packet.SetClassC2SPacket;
+import net.sunbuilder2020.midieval_classes.networking.packet.ClassDataSyncS2CPacket;
 
 @Mod.EventBusSubscriber
 public class CustomCommands {
@@ -61,7 +61,18 @@ public class CustomCommands {
             case "berserk" -> newPlayerClass = ClassManager.BerserkClassID;
             case "jester" -> newPlayerClass = ClassManager.JesterClassID;
         }
-        ModMessages.sendToServer(new SetClassC2SPacket(newPlayerClass));
+
+        String finalNewPlayerClass = newPlayerClass;
+        player.getCapability(PlayerClassesProvider.PLAYER_CLASSES).ifPresent(classes -> {
+            classes.setClass(finalNewPlayerClass);
+
+            ClassManager.applyClassChanges((Player) player);
+
+            ModMessages.sendToClient(new ClassDataSyncS2CPacket(String.valueOf(classes.getClass())), player);
+
+            ClassManager.sendClassAssignedMessage(player, finalNewPlayerClass);
+        });
+
         context.getSource().sendSystemMessage(Component.literal(player.getName().getString() + "'s Profession is now set to " + option));
 
         return 1;

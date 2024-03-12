@@ -59,5 +59,4 @@ public class ModMessages {
     public static <MSG> void sendToClient(MSG message, ServerPlayer player) {
         Instance.send(PacketDistributor.PLAYER.with(() -> player), message);
     }
-
 }

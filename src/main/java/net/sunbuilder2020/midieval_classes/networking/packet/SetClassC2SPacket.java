@@ -36,6 +36,8 @@ public class SetClassC2SPacket {
                     ClassManager.applyClassChanges((Player) player);
 
                     ModMessages.sendToClient(new ClassDataSyncS2CPacket(String.valueOf(classes.getClass())), player);
+
+                    ClassManager.sendClassAssignedMessage(player, this.classes);
                 });
             }
         });

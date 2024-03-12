@@ -1,6 +1,8 @@
 package net.sunbuilder2020.midieval_classes.classes;
 
 import io.redspace.ironsspellbooks.api.registry.AttributeRegistry;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -34,6 +36,12 @@ public class ClassManager {
     public static String JesterClassID = "JesterClass";
     public static final UUID CLASS_ATTRIBUTE_MODIFIER_ID = UUID.fromString("1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6d");
     public static final Map<UUID, String> PLAYER_CLASSES = new ConcurrentHashMap<>();
+
+    public static void sendClassAssignedMessage(Player player, String playerClass) {
+        player.sendSystemMessage(Component.literal("--------------------------------------------------------------").withStyle(ChatFormatting.GOLD));
+        player.sendSystemMessage(Component.literal("Since you didn't have a Class you were assigned the " + playerClass + "!").withStyle(ChatFormatting.GOLD));
+        player.sendSystemMessage(Component.literal("--------------------------------------------------------------").withStyle(ChatFormatting.GOLD));
+    }
 
     public static void applyClassChanges(Player player) {
         player.getCapability(PlayerClassesProvider.PLAYER_CLASSES).ifPresent(classes -> {

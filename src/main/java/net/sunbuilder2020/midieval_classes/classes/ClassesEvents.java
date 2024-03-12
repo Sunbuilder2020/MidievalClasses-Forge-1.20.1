@@ -8,22 +8,12 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.sunbuilder2020.midieval_classes.MidievalClasses;
 import net.sunbuilder2020.midieval_classes.networking.ModMessages;
 import net.sunbuilder2020.midieval_classes.networking.packet.ClassDataSyncS2CPacket;
-import net.sunbuilder2020.midieval_classes.networking.packet.SetClassC2SPacket;
-import org.joml.Random;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.random.RandomGenerator;
 
 @Mod.EventBusSubscriber(modid = MidievalClasses.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ClassesEvents {
@@ -51,6 +41,8 @@ public class ClassesEvents {
 
                     ClassManager.applyClassChanges(player);
                     ModMessages.sendToClient(new ClassDataSyncS2CPacket(randomClass), player);
+
+                    ClassManager.sendClassAssignedMessage(player, randomClass);
                 }
             });
         }
