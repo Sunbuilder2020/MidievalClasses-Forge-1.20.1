@@ -10,14 +10,22 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.sunbuilder2020.midieval_classes.items.ModCreativeModeTabs;
-import net.sunbuilder2020.midieval_classes.items.ModItems;
 import net.sunbuilder2020.midieval_classes.networking.ModMessages;
 import org.slf4j.Logger;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(MidievalClasses.MOD_ID)
 public class MidievalClasses {
+    /**
+     To do:
+        -Add Seasons
+            -Test rewriting Player Class
+        -Fix Class Related bugs
+        -Make save Player class for Death not with HashMap
+        -Add King Status
+        -Fix Mod Name Typo
+     */
+
     public static final String MOD_ID = "midieval_classes";
     private static final Logger LOGGER = LogUtils.getLogger();
     public MidievalClasses() {
@@ -26,9 +34,6 @@ public class MidievalClasses {
         modEventBus.addListener(this::commonSetup);
 
         MinecraftForge.EVENT_BUS.register(this);
-
-        ModItems.register(modEventBus);
-        ModCreativeModeTabs.register(modEventBus);
 
         ModMessages.register();
     }

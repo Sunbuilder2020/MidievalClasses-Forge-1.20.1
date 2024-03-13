@@ -3,7 +3,7 @@ package net.sunbuilder2020.midieval_classes.classes;
 import io.redspace.ironsspellbooks.api.registry.AttributeRegistry;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
@@ -12,13 +12,12 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.sunbuilder2020.midieval_classes.MidievalClasses;
 import net.sunbuilder2020.midieval_classes.classes.player_classes.*;
-import net.sunbuilder2020.midieval_classes.networking.ModMessages;
-import net.sunbuilder2020.midieval_classes.networking.packet.ClassDataSyncS2CPacket;
 import virtuoel.pehkui.api.ScaleData;
 import virtuoel.pehkui.api.ScaleTypes;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicReference;
 
 @Mod.EventBusSubscriber(modid = MidievalClasses.MOD_ID)
 public class ClassManager {
@@ -34,19 +33,23 @@ public class ClassManager {
     public static String GiantClassID = "GiantClass";
     public static String BerserkClassID = "BerserkClass";
     public static String JesterClassID = "JesterClass";
+    public static Map<UUID, String> playerClasses = new HashMap<>();
     public static final UUID CLASS_ATTRIBUTE_MODIFIER_ID = UUID.fromString("1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6d");
-    public static final Map<UUID, String> PLAYER_CLASSES = new ConcurrentHashMap<>();
 
     public static void sendClassAssignedMessage(Player player, String playerClass) {
-        player.sendSystemMessage(Component.literal("--------------------------------------------------------------").withStyle(ChatFormatting.GOLD));
+        player.sendSystemMessage(Component.literal("------------------------------------------------------------").withStyle(ChatFormatting.GOLD));
         player.sendSystemMessage(Component.literal("Since you didn't have a Class you were assigned the " + playerClass + "!").withStyle(ChatFormatting.GOLD));
-        player.sendSystemMessage(Component.literal("--------------------------------------------------------------").withStyle(ChatFormatting.GOLD));
+        player.sendSystemMessage(Component.literal("------------------------------------------------------------").withStyle(ChatFormatting.GOLD));
+    }
+
+    public static void sendNewSeasonStartedMessage(Player player, List<String> availableClasses) {
+        String availableClassesString = String.join(", ", availableClasses);
+
+        player.sendSystemMessage(Component.literal("A new Season has just started, the newly available Classes are: " + availableClassesString).withStyle(ChatFormatting.GOLD));
     }
 
     public static void applyClassChanges(Player player) {
         player.getCapability(PlayerClassesProvider.PLAYER_CLASSES).ifPresent(classes -> {
-            PLAYER_CLASSES.put(player.getUUID(), classes.getClasses());
-
             clearPlayerClassAttributes(player);
             resetPlayerSize(player);
 
@@ -141,12 +144,33 @@ public class ClassManager {
         visibilityScaleData.setScale(1.0F);
     }
 
-    public static String getRandomClass() {
+    public static String getRandomValidClass(ServerLevel level) {
+        AtomicReference<String> result = new AtomicReference<>();
+
+        level.getCapability(ClassSeasonsProvider.CLASS_SEASONS).ifPresent(seasons -> {
+            List<String> classes = new ArrayList<>(seasons.getAvailableClasses());
+            if (!classes.isEmpty()) {
+                Random rand = new Random();
+                result.set(classes.get(rand.nextInt(classes.size())));
+            }
+        });
+
+        if (result.get() != null) {
+            return result.get();
+        } else {
+            List<String> classes = getAllClasses();
+
+            Random rand = new Random();
+            return classes.get(rand.nextInt(classes.size()));
+        }
+    }
+
+    public static List<String> getAllClasses() {
         List<String> classes = Arrays.asList(
                 PaladinClassID, ThiefClassID, BlacksmithClassID, DwarfClassID, MonkClassID, ElveClassID,
                 ExecutionerClassID, ArcherClassID, WizardClassID, GiantClassID, BerserkClassID, JesterClassID
         );
-        Random rand = new Random();
-        return classes.get(rand.nextInt(classes.size()));
+
+        return classes;
     }
 }
