@@ -1,32 +1,24 @@
-package net.sunbuilder2020.midieval_classes.classes.player_classes;
+package net.sunbuilder2020.medieval_classes.classes.player_classes;
 
 import io.redspace.ironsspellbooks.registries.MobEffectRegistry;
 import net.minecraft.core.BlockPos;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.food.FoodData;
-import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.living.LivingUseTotemEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.sunbuilder2020.midieval_classes.MidievalClasses;
-import net.sunbuilder2020.midieval_classes.classes.ClassManager;
-import net.sunbuilder2020.midieval_classes.classes.PlayerClassesProvider;
+import net.sunbuilder2020.medieval_classes.MedievalClasses;
+import net.sunbuilder2020.medieval_classes.classes.ClassManager;
+import net.sunbuilder2020.medieval_classes.classes.PlayerClassesProvider;
 
-import java.util.List;
-import java.util.logging.Level;
-
-@Mod.EventBusSubscriber(modid = MidievalClasses.MOD_ID)
+@Mod.EventBusSubscriber(modid = MedievalClasses.MOD_ID)
 public class JesterClass {
     /**
     Jester Class Abilities:

@@ -1,4 +1,4 @@
-package net.sunbuilder2020.midieval_classes.classes;
+package net.sunbuilder2020.medieval_classes.classes;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -13,15 +13,15 @@ import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.sunbuilder2020.midieval_classes.MidievalClasses;
+import net.sunbuilder2020.medieval_classes.MedievalClasses;
 
-@Mod.EventBusSubscriber(modid = MidievalClasses.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
+@Mod.EventBusSubscriber(modid = MedievalClasses.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ClassesEvents {
     @SubscribeEvent
     public static void attachCapabilitiesEvent(AttachCapabilitiesEvent<Entity> event) {
         if (event.getObject() instanceof Player) {
             if (!event.getObject().getCapability(PlayerClassesProvider.PLAYER_CLASSES).isPresent()) {
-                event.addCapability(new ResourceLocation(MidievalClasses.MOD_ID, "player_classes"), new PlayerClassesProvider());
+                event.addCapability(new ResourceLocation(MedievalClasses.MOD_ID, "player_classes"), new PlayerClassesProvider());
             }
         }
     }
@@ -127,6 +127,6 @@ public class ClassesEvents {
         }
 
         ClassSeasonsProvider provider = new ClassSeasonsProvider();
-        event.addCapability(new ResourceLocation(MidievalClasses.MOD_ID, "class_seasons"), provider);
+        event.addCapability(new ResourceLocation(MedievalClasses.MOD_ID, "class_seasons"), provider);
     }
 }

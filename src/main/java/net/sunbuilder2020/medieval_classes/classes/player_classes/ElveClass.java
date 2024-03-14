@@ -1,7 +1,5 @@
-package net.sunbuilder2020.midieval_classes.classes.player_classes;
+package net.sunbuilder2020.medieval_classes.classes.player_classes;
 
-import net.minecraft.network.chat.Component;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -10,14 +8,13 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.event.entity.living.LivingHealEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.sunbuilder2020.midieval_classes.MidievalClasses;
-import net.sunbuilder2020.midieval_classes.classes.ClassManager;
-import net.sunbuilder2020.midieval_classes.classes.PlayerClassesProvider;
+import net.sunbuilder2020.medieval_classes.MedievalClasses;
+import net.sunbuilder2020.medieval_classes.classes.ClassManager;
+import net.sunbuilder2020.medieval_classes.classes.PlayerClassesProvider;
 import virtuoel.pehkui.api.ScaleData;
 import virtuoel.pehkui.api.ScaleTypes;
 
-@Mod.EventBusSubscriber(modid = MidievalClasses.MOD_ID)
+@Mod.EventBusSubscriber(modid = MedievalClasses.MOD_ID)
 public class ElveClass {
     /**
     Elve Class Abilities:

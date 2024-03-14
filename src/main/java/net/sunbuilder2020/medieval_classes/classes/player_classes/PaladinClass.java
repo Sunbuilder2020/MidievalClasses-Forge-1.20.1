@@ -1,4 +1,4 @@
-package net.sunbuilder2020.midieval_classes.classes.player_classes;
+package net.sunbuilder2020.medieval_classes.classes.player_classes;
 
 import io.redspace.ironsspellbooks.entity.spells.target_area.TargetedAreaEntity;
 import net.minecraft.world.entity.Entity;
@@ -17,17 +17,17 @@ import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.sunbuilder2020.midieval_classes.MidievalClasses;
-import net.sunbuilder2020.midieval_classes.classes.ClassManager;
-import net.sunbuilder2020.midieval_classes.classes.PlayerClassesProvider;
-import net.sunbuilder2020.midieval_classes.player_hostility.EntityRelationshipTracker;
+import net.sunbuilder2020.medieval_classes.MedievalClasses;
+import net.sunbuilder2020.medieval_classes.classes.ClassManager;
+import net.sunbuilder2020.medieval_classes.classes.PlayerClassesProvider;
+import net.sunbuilder2020.medieval_classes.player_hostility.EntityRelationshipTracker;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-@Mod.EventBusSubscriber(modid = MidievalClasses.MOD_ID)
+@Mod.EventBusSubscriber(modid = MedievalClasses.MOD_ID)
 public class PaladinClass {
     /**
     Paladin Class Abilities:

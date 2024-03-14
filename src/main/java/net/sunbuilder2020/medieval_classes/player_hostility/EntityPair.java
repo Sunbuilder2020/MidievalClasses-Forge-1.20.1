@@ -1,4 +1,4 @@
-package net.sunbuilder2020.midieval_classes.player_hostility;
+package net.sunbuilder2020.medieval_classes.player_hostility;
 
 import net.minecraft.world.entity.Entity;
 import java.util.Objects;

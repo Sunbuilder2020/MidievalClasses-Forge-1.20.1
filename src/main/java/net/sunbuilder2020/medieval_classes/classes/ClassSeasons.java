@@ -1,4 +1,4 @@
-package net.sunbuilder2020.midieval_classes.classes;
+package net.sunbuilder2020.medieval_classes.classes;
 
 import net.minecraft.nbt.CompoundTag;
 

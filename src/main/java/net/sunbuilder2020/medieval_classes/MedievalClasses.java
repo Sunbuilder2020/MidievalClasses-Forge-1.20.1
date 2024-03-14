@@ -1,4 +1,4 @@
-package net.sunbuilder2020.midieval_classes;
+package net.sunbuilder2020.medieval_classes;
 
 import com.mojang.logging.LogUtils;
 import net.minecraftforge.api.distmarker.Dist;
@@ -13,8 +13,8 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
 
 // The value here should match an entry in the META-INF/mods.toml file
-@Mod(MidievalClasses.MOD_ID)
-public class MidievalClasses {
+@Mod(MedievalClasses.MOD_ID)
+public class MedievalClasses {
     /**
      To do:
         -Fix Class Related bugs
@@ -23,9 +23,9 @@ public class MidievalClasses {
         -Fix Mod Name Typo
      */
 
-    public static final String MOD_ID = "midieval_classes";
+    public static final String MOD_ID = "medieval_classes";
     private static final Logger LOGGER = LogUtils.getLogger();
-    public MidievalClasses() {
+    public MedievalClasses() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
         modEventBus.addListener(this::commonSetup);

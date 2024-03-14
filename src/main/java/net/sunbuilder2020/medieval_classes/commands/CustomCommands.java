@@ -1,4 +1,4 @@
-package net.sunbuilder2020.midieval_classes.commands;
+package net.sunbuilder2020.medieval_classes.commands;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
@@ -15,9 +15,9 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.sunbuilder2020.midieval_classes.classes.ClassManager;
-import net.sunbuilder2020.midieval_classes.classes.ClassSeasonsProvider;
-import net.sunbuilder2020.midieval_classes.classes.PlayerClassesProvider;
+import net.sunbuilder2020.medieval_classes.classes.ClassManager;
+import net.sunbuilder2020.medieval_classes.classes.ClassSeasonsProvider;
+import net.sunbuilder2020.medieval_classes.classes.PlayerClassesProvider;
 
 import java.util.*;
 

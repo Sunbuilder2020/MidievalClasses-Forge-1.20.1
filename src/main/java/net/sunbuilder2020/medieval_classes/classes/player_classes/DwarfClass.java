@@ -1,50 +1,31 @@
-package net.sunbuilder2020.midieval_classes.classes.player_classes;
+package net.sunbuilder2020.medieval_classes.classes.player_classes;
 
-import com.mojang.datafixers.types.templates.Tag;
-import io.redspace.ironsspellbooks.entity.spells.target_area.TargetedAreaEntity;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.ItemTags;
-import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.Tags;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistries;
-import net.sunbuilder2020.midieval_classes.MidievalClasses;
-import net.sunbuilder2020.midieval_classes.classes.ClassManager;
-import net.sunbuilder2020.midieval_classes.classes.PlayerClassesProvider;
-import net.sunbuilder2020.midieval_classes.player_hostility.EntityRelationshipTracker;
-import org.jetbrains.annotations.NotNull;
+import net.sunbuilder2020.medieval_classes.MedievalClasses;
+import net.sunbuilder2020.medieval_classes.classes.ClassManager;
+import net.sunbuilder2020.medieval_classes.classes.PlayerClassesProvider;
 import virtuoel.pehkui.api.ScaleData;
 import virtuoel.pehkui.api.ScaleTypes;
-import virtuoel.pehkui.network.PehkuiPacketHandler;
-import virtuoel.pehkui.network.ScalePacket;
 
-import javax.swing.text.html.HTML;
 import java.util.*;
-import java.util.stream.Collectors;
 
-@Mod.EventBusSubscriber(modid = MidievalClasses.MOD_ID)
+@Mod.EventBusSubscriber(modid = MedievalClasses.MOD_ID)
 public class DwarfClass {
     /**
     Dwarf Class Abilities:

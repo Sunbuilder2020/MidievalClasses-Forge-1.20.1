@@ -1,4 +1,4 @@
-package net.sunbuilder2020.midieval_classes.classes;
+package net.sunbuilder2020.medieval_classes.classes;
 
 import io.redspace.ironsspellbooks.api.registry.AttributeRegistry;
 import net.minecraft.ChatFormatting;
@@ -11,16 +11,15 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.sunbuilder2020.midieval_classes.MidievalClasses;
-import net.sunbuilder2020.midieval_classes.classes.player_classes.*;
+import net.sunbuilder2020.medieval_classes.MedievalClasses;
+import net.sunbuilder2020.medieval_classes.classes.player_classes.*;
 import virtuoel.pehkui.api.ScaleData;
 import virtuoel.pehkui.api.ScaleTypes;
 
-import javax.annotation.Nullable;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 
-@Mod.EventBusSubscriber(modid = MidievalClasses.MOD_ID)
+@Mod.EventBusSubscriber(modid = MedievalClasses.MOD_ID)
 public class ClassManager {
     public static String PaladinClassID = "PaladinClass";
     public static String ThiefClassID = "ThiefClass";

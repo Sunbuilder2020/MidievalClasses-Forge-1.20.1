@@ -1,4 +1,4 @@
-package net.sunbuilder2020.midieval_classes.classes;
+package net.sunbuilder2020.medieval_classes.classes;
 
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -10,21 +10,22 @@ import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import org.jetbrains.annotations.Nullable;
 
-public class ClassSeasonsProvider implements ICapabilityProvider, INBTSerializable<CompoundTag> {
-    public static Capability<ClassSeasons> CLASS_SEASONS = CapabilityManager.get(new CapabilityToken<ClassSeasons>() {});
-    private ClassSeasons classSeasons = null;
-    private final LazyOptional<ClassSeasons> optional = LazyOptional.of(this::createClassSeasons);
+public class PlayerClassesProvider implements ICapabilityProvider, INBTSerializable<CompoundTag> {
+    public static Capability<PlayerClasses> PLAYER_CLASSES = CapabilityManager.get(new CapabilityToken<PlayerClasses>() {});
 
-    private ClassSeasons createClassSeasons() {
-        if (this.classSeasons == null) {
-            this.classSeasons = new ClassSeasons();
+    private PlayerClasses playerClasses = null;
+    private final LazyOptional<PlayerClasses> optional = LazyOptional.of(this::createPlayerClasses);
+
+    private PlayerClasses createPlayerClasses() {
+        if (this.playerClasses == null) {
+            this.playerClasses = new PlayerClasses();
         }
-        return this.classSeasons;
+        return this.playerClasses;
     }
 
     @Override
     public <T> LazyOptional<T> getCapability(Capability<T> cap, @Nullable Direction side) {
-        return cap == CLASS_SEASONS ? optional.cast() : LazyOptional.empty();
+        return cap == PLAYER_CLASSES ? optional.cast() : LazyOptional.empty();
     }
 
 
@@ -32,12 +33,12 @@ public class ClassSeasonsProvider implements ICapabilityProvider, INBTSerializab
     @Override
     public CompoundTag serializeNBT() {
         CompoundTag nbt = new CompoundTag();
-        createClassSeasons().saveNBTData(nbt);
+        createPlayerClasses().saveNBTData(nbt);
         return nbt;
     }
 
     @Override
     public void deserializeNBT(CompoundTag nbt) {
-        createClassSeasons().loadNBTData(nbt);
+        createPlayerClasses().loadNBTData(nbt);
     }
 }

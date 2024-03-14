@@ -1,16 +1,16 @@
-package net.sunbuilder2020.midieval_classes.player_hostility;
+package net.sunbuilder2020.medieval_classes.player_hostility;
 
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.sunbuilder2020.midieval_classes.MidievalClasses;
+import net.sunbuilder2020.medieval_classes.MedievalClasses;
 
 import java.util.HashMap;
 import java.util.Map;
 
-@Mod.EventBusSubscriber(modid = MidievalClasses.MOD_ID)
+@Mod.EventBusSubscriber(modid = MedievalClasses.MOD_ID)
 public class CombatTracker {
     private static final Map<Player, Long> lastCombatTimes = new HashMap<>();
 
