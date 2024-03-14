@@ -4,6 +4,7 @@ import io.redspace.ironsspellbooks.api.registry.AttributeRegistry;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
@@ -15,8 +16,8 @@ import net.sunbuilder2020.midieval_classes.classes.player_classes.*;
 import virtuoel.pehkui.api.ScaleData;
 import virtuoel.pehkui.api.ScaleTypes;
 
+import javax.annotation.Nullable;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicReference;
 
 @Mod.EventBusSubscriber(modid = MidievalClasses.MOD_ID)
@@ -34,18 +35,45 @@ public class ClassManager {
     public static String BerserkClassID = "BerserkClass";
     public static String JesterClassID = "JesterClass";
     public static Map<UUID, String> playerClasses = new HashMap<>();
+    public static Map<UUID, Boolean> playerIsKing = new HashMap<>();
     public static final UUID CLASS_ATTRIBUTE_MODIFIER_ID = UUID.fromString("1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6d");
-
-    public static void sendClassAssignedMessage(Player player, String playerClass) {
-        player.sendSystemMessage(Component.literal("------------------------------------------------------------").withStyle(ChatFormatting.GOLD));
-        player.sendSystemMessage(Component.literal("Since you didn't have a Class you were assigned the " + playerClass + "!").withStyle(ChatFormatting.GOLD));
-        player.sendSystemMessage(Component.literal("------------------------------------------------------------").withStyle(ChatFormatting.GOLD));
-    }
 
     public static void sendNewSeasonStartedMessage(Player player, List<String> availableClasses) {
         String availableClassesString = String.join(", ", availableClasses);
 
         player.sendSystemMessage(Component.literal("A new Season has just started, the newly available Classes are: " + availableClassesString).withStyle(ChatFormatting.GOLD));
+    }
+
+    /**
+     *
+     * @param messageType
+     * '1': Player didn't already have a Class.
+     * '2': Player Class was overwritten.
+     * '3': A new season has started.
+     * '4': The Player was no longer forced a class.
+     * '5': The Player was forced a class.
+     * '6': The Player was forced a class by a King.
+     */
+
+    public static void sendClassMessages(Player player, String playerClass, int messageType) {
+        switch (messageType) {
+            case 1 -> player.sendSystemMessage(Component.literal("Since you didn't have a Class you were assigned the " + playerClass + "!").withStyle(ChatFormatting.GOLD));
+            case 2 -> player.sendSystemMessage(Component.literal("You were assigned the " + playerClass + "!").withStyle(ChatFormatting.GOLD));
+            case 3 -> player.sendSystemMessage(Component.literal("Since a new season has started, you were assigned the " + playerClass + "!").withStyle(ChatFormatting.GOLD));
+            case 4 -> player.sendSystemMessage(Component.literal("Since you are no longer forced a class, you were reassigned the " + playerClass + "!").withStyle(ChatFormatting.GOLD));
+            case 5 -> player.sendSystemMessage(Component.literal("You were forced the " + playerClass + "!").withStyle(ChatFormatting.GOLD));
+            case 6 -> player.sendSystemMessage(Component.literal("Since you were killed by a King, you were forced the " + playerClass + "!").withStyle(ChatFormatting.GOLD));
+        }
+    }
+
+
+        public static void setClass(ServerPlayer player, String playerActiveClass, boolean playerIsKing, String originalClass, int forcedClassTicks) {
+        player.getCapability(PlayerClassesProvider.PLAYER_CLASSES).ifPresent(playerClasses -> {
+            playerClasses.setOriginalClass(playerActiveClass);
+            playerClasses.setIsKing(playerIsKing);
+            playerClasses.setOriginalClass(originalClass);
+            playerClasses.setRemainingForcedClassTicks(forcedClassTicks);
+        });
     }
 
     public static void applyClassChanges(Player player) {

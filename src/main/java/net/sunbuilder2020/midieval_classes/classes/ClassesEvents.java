@@ -1,25 +1,19 @@
 package net.sunbuilder2020.midieval_classes.classes;
 
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.sunbuilder2020.midieval_classes.MidievalClasses;
-import net.sunbuilder2020.midieval_classes.networking.ModMessages;
-import net.sunbuilder2020.midieval_classes.networking.packet.ClassDataSyncS2CPacket;
-
-import java.util.UUID;
 
 @Mod.EventBusSubscriber(modid = MidievalClasses.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ClassesEvents {
@@ -47,12 +41,12 @@ public class ClassesEvents {
                         ClassManager.sendNewSeasonStartedMessage(player, seasons.getAvailableClasses());
 
                         String randomClass = ClassManager.getRandomValidClass((ServerLevel) event.getEntity().level());
-                        playerClasses.setClass(randomClass);
+
+                        ClassManager.setClass(player, randomClass, playerClasses.getIsKing(), "", -1);
 
                         ClassManager.applyClassChanges(player);
-                        ModMessages.sendToClient(new ClassDataSyncS2CPacket(randomClass), player);
 
-                        ClassManager.sendClassAssignedMessage(player, randomClass);
+                        ClassManager.sendClassMessages(player, randomClass, 3);
                     }
                 });
             });
@@ -78,16 +72,17 @@ public class ClassesEvents {
 
             // Conceptually retrieve the saved class data
             String savedClass = ClassManager.playerClasses.get(oldPlayer.getUUID());
-            if (savedClass != null) {
-                newPlayer.getCapability(PlayerClassesProvider.PLAYER_CLASSES).ifPresent(newClasses -> {
-                    newClasses.setClass(savedClass);
+            boolean isKing = ClassManager.playerIsKing.get(oldPlayer.getUUID());
+            newPlayer.getCapability(PlayerClassesProvider.PLAYER_CLASSES).ifPresent(newClasses -> {
+                if (savedClass != null) {
+                    ClassManager.setClass(newPlayer, savedClass, isKing, "", -1);
 
                     ClassManager.applyClassChanges(newPlayer);
-                    ModMessages.sendToClient(new ClassDataSyncS2CPacket(savedClass), newPlayer);
-                });
 
-                ClassManager.playerClasses.remove(oldPlayer.getUUID());
-            }
+                    ClassManager.playerClasses.remove(oldPlayer.getUUID());
+                    ClassManager.playerIsKing.remove(oldPlayer.getUUID());
+                }
+            });
         }
     }
 
@@ -95,11 +90,34 @@ public class ClassesEvents {
     public static void onPlayerDeath(LivingDeathEvent event) {
         if (event.getEntity() instanceof ServerPlayer player) {
             player.getCapability(PlayerClassesProvider.PLAYER_CLASSES).ifPresent(classes -> {
-                String playerClass = classes.getClasses();
+                String playerClass = "";
+                if(classes.isForcedClass()) playerClass = classes.getOriginalClass();
+                else playerClass = classes.getClasses();
+                boolean isKing = classes.getIsKing();
 
                 ClassManager.playerClasses.put(player.getUUID(), playerClass);
+                ClassManager.playerIsKing.put(player.getUUID(), isKing);
             });
         }
+    }
+
+    @SubscribeEvent
+    public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
+        Player player = event.player;
+
+        player.getCapability(PlayerClassesProvider.PLAYER_CLASSES).ifPresent(classes -> {
+            if(classes.isForcedClass()) {
+                classes.setRemainingForcedClassTicks(classes.getRemainingForcedClassTicks() - 1);
+
+                if(classes.getRemainingForcedClassTicks() == 0) {
+                    ClassManager.setClass((ServerPlayer) player, classes.getOriginalClass(), classes.getIsKing(), "", -1);
+
+                    ClassManager.applyClassChanges(player);
+
+                    ClassManager.sendClassMessages(player, classes.getClasses(), 4);
+                }
+            }
+        });
     }
 
     @SubscribeEvent
