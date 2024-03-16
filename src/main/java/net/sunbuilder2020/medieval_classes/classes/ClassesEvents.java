@@ -37,7 +37,7 @@ public class ClassesEvents {
         if (event.getEntity() instanceof ServerPlayer player) {
             player.getCapability(PlayerClassesProvider.PLAYER_CLASSES).ifPresent(playerClasses -> {
                 player.serverLevel().getCapability(ClassSeasonsProvider.CLASS_SEASONS).ifPresent(seasons -> {
-                    if (playerClasses.getClasses().isEmpty() || playerClasses.getLastSeasonOnline() < seasons.getCurrentSeason()) {
+                    if (playerClasses.getLastSeasonOnline() < seasons.getCurrentSeason()) {
                         ClassManager.sendNewSeasonStartedMessage(player, seasons.getAvailableClasses());
 
                         String randomClass = ClassManager.getRandomValidClass((ServerLevel) event.getEntity().level());
@@ -47,6 +47,20 @@ public class ClassesEvents {
                         ClassManager.applyClassChanges(player);
 
                         ClassManager.sendClassMessages(player, randomClass, 3);
+                    }
+
+                    if(seasons.getCurrentSeason() <= 0) {
+                        ClassManager.startNewSeason(player.serverLevel(), 6);
+                    }
+
+                    if (playerClasses.getClasses().isEmpty()) {
+                        String randomClass = ClassManager.getRandomValidClass((ServerLevel) event.getEntity().level());
+
+                        ClassManager.setClass(player, randomClass, playerClasses.getIsKing(), "", -1);
+
+                        ClassManager.applyClassChanges(player);
+
+                        ClassManager.sendClassMessages(player, playerClasses.getClasses(), 1);
                     }
                 });
             });

@@ -65,13 +65,52 @@ public class ClassManager {
         }
     }
 
-
         public static void setClass(ServerPlayer player, String playerActiveClass, boolean playerIsKing, String originalClass, int forcedClassTicks) {
         player.getCapability(PlayerClassesProvider.PLAYER_CLASSES).ifPresent(playerClasses -> {
-            playerClasses.setOriginalClass(playerActiveClass);
+            playerClasses.setClass(playerActiveClass);
             playerClasses.setIsKing(playerIsKing);
             playerClasses.setOriginalClass(originalClass);
             playerClasses.setRemainingForcedClassTicks(forcedClassTicks);
+        });
+    }
+
+    public static void startNewSeason(ServerLevel level, int availableClassesAmount) {
+        level.getCapability(ClassSeasonsProvider.CLASS_SEASONS).ifPresent(seasons -> {
+            seasons.setCurrentSeason(seasons.getCurrentSeason() + 1);
+            seasons.setAvailableClasses(new ArrayList<>());
+
+            List<String> availableClasses = new ArrayList<>();
+
+            for (int i = 0; i < availableClassesAmount; ) {
+                String randomClass = ClassManager.getRandomValidClass(level);
+                if (!availableClasses.contains(randomClass)) {
+                    availableClasses.add(randomClass);
+                    i++;
+                }
+
+                if (availableClasses.size() >= ClassManager.getAllClasses().size()) {
+                    break;
+                }
+            }
+
+            seasons.setAvailableClasses(availableClasses);
+
+            List<ServerPlayer> onlinePlayers = level.getServer().getPlayerList().getPlayers();
+
+            for (ServerPlayer player : onlinePlayers) {
+                ClassManager.sendNewSeasonStartedMessage(player, availableClasses);
+
+                player.getCapability(PlayerClassesProvider.PLAYER_CLASSES).ifPresent(classes -> {
+                    String randomClass = ClassManager.getRandomValidClass(level);
+
+                    ClassManager.setClass(player, randomClass, classes.getIsKing(), "", -1);
+
+                    ClassManager.applyClassChanges(player);
+
+                    ClassManager.sendClassMessages(player, classes.getClasses(), 3);
+                });
+
+            }
         });
     }
 

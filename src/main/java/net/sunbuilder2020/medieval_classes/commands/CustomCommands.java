@@ -79,10 +79,10 @@ public class CustomCommands {
                 int forcedClassTicks = classes.getRemainingForcedClassTicks();
 
                 ServerPlayer sender =  context.getSource().getPlayer();
-                sender.sendSystemMessage(Component.literal("ClassInfo of Server: "));
+                sender.sendSystemMessage(Component.literal("Info of current season: "));
                 sender.sendSystemMessage(Component.literal("    Current Season: " + activeSeason));
                 sender.sendSystemMessage(Component.literal("    Current Season's available Classes: " + availableClassesString));
-                sender.sendSystemMessage(Component.literal("ClassInfo of Player: " + player.getDisplayName()));
+                sender.sendSystemMessage(Component.literal("ClassInfo of Player: " + player.getName().getString()));
                 sender.sendSystemMessage(Component.literal("    Player's active Class: " + playerActiveClass));
                 sender.sendSystemMessage(Component.literal("    Player is King: " + playerIsKing));
                 sender.sendSystemMessage(Component.literal("    Player is Forced Class: " + isForcedClass));
@@ -129,47 +129,9 @@ public class CustomCommands {
     }
 
     private static int startNewSeason(CommandContext<CommandSourceStack> context, int availableClassesAmount) {
-        Level level = context.getSource().getLevel();
+        ServerLevel level = context.getSource().getLevel();
 
-        if(!level.isClientSide) {
-            level.getCapability(ClassSeasonsProvider.CLASS_SEASONS).ifPresent(seasons -> {
-                seasons.setCurrentSeason(seasons.getCurrentSeason() + 1);
-                seasons.setAvailableClasses(new ArrayList<>());
-
-                List<String> availableClasses = new ArrayList<>();
-
-                for (int i = 0; i < availableClassesAmount; ) {
-                    String randomClass = ClassManager.getRandomValidClass((ServerLevel) level);
-                    if(!availableClasses.contains(randomClass)) {
-                        availableClasses.add(randomClass);
-                        i++;
-                    }
-
-                    if(availableClasses.size() >= ClassManager.getAllClasses().size()) {
-                        break;
-                    }
-                }
-
-                seasons.setAvailableClasses(availableClasses);
-
-                List<ServerPlayer> onlinePlayers = context.getSource().getServer().getPlayerList().getPlayers();
-
-                for (Player player : onlinePlayers) {
-                    ClassManager.sendNewSeasonStartedMessage(player, availableClasses);
-
-                    player.getCapability(PlayerClassesProvider.PLAYER_CLASSES).ifPresent(classes -> {
-                        String randomClass = ClassManager.getRandomValidClass((ServerLevel) level);
-
-                        ClassManager.setClass((ServerPlayer) player, randomClass, classes.getIsKing(), "", -1);
-
-                        ClassManager.applyClassChanges((Player) player);
-
-                        ClassManager.sendClassMessages(player, randomClass, 3);
-                    });
-
-                }
-            });
-        }
+        ClassManager.startNewSeason(level, availableClassesAmount);
 
         return 1;
     }

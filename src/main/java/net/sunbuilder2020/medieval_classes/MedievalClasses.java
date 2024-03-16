@@ -18,9 +18,9 @@ public class MedievalClasses {
     /**
      To do:
         -Fix Class Related bugs
-        -Add King Status
-            -Add Item
-        -Fix Mod Name Typo
+        -Add King Status Item
+        -Add Class Re-roll item
+        -Add Class abilities Info
      */
 
     public static final String MOD_ID = "medieval_classes";
