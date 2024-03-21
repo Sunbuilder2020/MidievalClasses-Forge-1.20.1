@@ -23,7 +23,7 @@ public class JesterClass {
     /**
     Jester Class Abilities:
         -Dealt damage is multiplied with a random number between 0 and 2
-        -Received damage is multiplied with a random number between 0 and 1.5
+        -Received damage is multiplied with a random number between 0 and 2
         -When you get hit, you have a 5% chance teleport a few blocks away and get invisibility for 5 seconds
         -when you die you have a 20% chance to activate the effects of a totem of undying without having one active
      */
@@ -42,7 +42,7 @@ public class JesterClass {
         if (event.getEntity() instanceof Player player) {
             player.getCapability(PlayerClassesProvider.PLAYER_CLASSES).ifPresent(classes -> {
                 if(classes.isClass(ClassManager.JesterClassID)) {
-                    float receivedMultiplier = player.getRandom().nextFloat() * 1.5f;
+                    float receivedMultiplier = player.getRandom().nextFloat() * 2.0f;
                     event.setAmount(event.getAmount() * receivedMultiplier);
 
                     if (player.getRandom().nextFloat() <= 0.05) {
@@ -58,7 +58,7 @@ public class JesterClass {
     public static void onLivingDeath(LivingDeathEvent event) {
         if (event.getEntity() instanceof Player player) {
             player.getCapability(PlayerClassesProvider.PLAYER_CLASSES).ifPresent(classes -> {
-                if (player.getRandom().nextFloat() <= 0.20 && classes.isClass(ClassManager.JesterClassID)) {
+                if (player.getRandom().nextFloat() <= 0.10 && classes.isClass(ClassManager.JesterClassID)) {
                     event.setCanceled(true);
                     player.setHealth(1.0F);
                     player.removeAllEffects();
@@ -75,7 +75,7 @@ public class JesterClass {
     @SubscribeEvent
     public static void onTotemUse(LivingUseTotemEvent event) {
         event.getEntity().getCapability(PlayerClassesProvider.PLAYER_CLASSES).ifPresent(classes -> {
-            if (event.getEntity().getRandom().nextFloat() <= 0.20 && classes.isClass(ClassManager.JesterClassID)) {
+            if (event.getEntity().getRandom().nextFloat() <= 0.40 && classes.isClass(ClassManager.JesterClassID)) {
                 event.setCanceled(true);
             }
         });
