@@ -10,6 +10,8 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.sunbuilder2020.medieval_classes.items.ModCreativeModeTabs;
+import net.sunbuilder2020.medieval_classes.items.ModItems;
 import org.slf4j.Logger;
 
 // The value here should match an entry in the META-INF/mods.toml file
@@ -17,9 +19,6 @@ import org.slf4j.Logger;
 public class MedievalClasses {
     /**
      To do:
-        -Fix Class Related bugs
-        -Add King Status Item
-        -Add Class Re-roll item
         -Add Class abilities Info
      */
 
@@ -31,6 +30,9 @@ public class MedievalClasses {
         modEventBus.addListener(this::commonSetup);
 
         MinecraftForge.EVENT_BUS.register(this);
+
+        ModCreativeModeTabs.register(modEventBus);
+        ModItems.register(modEventBus);
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {

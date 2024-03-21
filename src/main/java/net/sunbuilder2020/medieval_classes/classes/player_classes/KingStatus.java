@@ -33,6 +33,13 @@ public class KingStatus {
 
                         ClassManager.sendClassMessages(target, targetClasses.getClasses(), 6);
                     }
+
+                    if(targetClasses.getIsKing() && !hunterClasses.getIsKing()) {
+                        targetClasses.setIsKing(false);
+                        hunterClasses.setIsKing(true);
+
+                        ClassManager.sendKingCrownedMessage(hunter, 1, target);
+                    }
                 });
             });
         }

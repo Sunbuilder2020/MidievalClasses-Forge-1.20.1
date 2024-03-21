@@ -16,6 +16,7 @@ import net.sunbuilder2020.medieval_classes.classes.player_classes.*;
 import virtuoel.pehkui.api.ScaleData;
 import virtuoel.pehkui.api.ScaleTypes;
 
+import javax.annotation.Nullable;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -52,6 +53,7 @@ public class ClassManager {
      * '4': The Player was no longer forced a class.
      * '5': The Player was forced a class.
      * '6': The Player was forced a class by a King.
+     * '7': The Players Class has been Re-rolled
      */
 
     public static void sendClassMessages(Player player, String playerClass, int messageType) {
@@ -62,6 +64,26 @@ public class ClassManager {
             case 4 -> player.sendSystemMessage(Component.literal("Since you are no longer forced a class, you were reassigned the " + playerClass + "!").withStyle(ChatFormatting.GOLD));
             case 5 -> player.sendSystemMessage(Component.literal("You were forced the " + playerClass + "!").withStyle(ChatFormatting.GOLD));
             case 6 -> player.sendSystemMessage(Component.literal("Since you were killed by a King, you were forced the " + playerClass + "!").withStyle(ChatFormatting.GOLD));
+            case 7 -> player.sendSystemMessage(Component.literal("Your Class has been Re-rolled into the " + playerClass + "!").withStyle(ChatFormatting.GOLD));
+        }
+    }
+
+    /**
+     * @param messageType
+     * '0': The King was Crowned.
+     * '1': The Player has assassinated the King.
+     */
+
+    public static void sendKingCrownedMessage(Player newKing, int messageType, @Nullable Player oldKing) {
+        List<ServerPlayer> playerList = newKing.getServer().getPlayerList().getPlayers();
+
+        for(Player player : playerList) {
+            switch (messageType) {
+                case 0 -> player.sendSystemMessage(Component.literal(newKing.getName().getString() + " has been crowned the King of this Realm!").withStyle(ChatFormatting.GOLD));
+                case 1 -> {
+                    if(oldKing != null) player.sendSystemMessage(Component.literal(newKing.getName().getString() + " has Taken over " + oldKing.getName().getString() + "'s Throne!").withStyle(ChatFormatting.GOLD));
+                }
+            }
         }
     }
 
@@ -71,6 +93,8 @@ public class ClassManager {
             playerClasses.setIsKing(playerIsKing);
             playerClasses.setOriginalClass(originalClass);
             playerClasses.setRemainingForcedClassTicks(forcedClassTicks);
+
+            applyClassChanges(player);
         });
     }
 

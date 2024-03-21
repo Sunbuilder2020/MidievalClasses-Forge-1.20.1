@@ -1,0 +1,6 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "medieval_classes:item/re_roll_book"
+  }
+}

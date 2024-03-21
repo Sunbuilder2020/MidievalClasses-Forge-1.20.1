@@ -54,20 +54,20 @@ public class GiantClass {
         ScaleData widthScaleData = ScaleTypes.WIDTH.getScaleData(entity);
         ScaleData reachScaleData = ScaleTypes.REACH.getScaleData(entity);
         ScaleData miningSpeedScaleData = ScaleTypes.MINING_SPEED.getScaleData(entity);
-        ScaleData dropsScaleData = ScaleTypes.DROPS.getScaleData(entity);
-        ScaleData heldItemScaleData = ScaleTypes.HELD_ITEM.getScaleData(entity);
+        //ScaleData dropsScaleData = ScaleTypes.DROPS.getScaleData(entity);
+        //ScaleData heldItemScaleData = ScaleTypes.HELD_ITEM.getScaleData(entity);
         ScaleData projectilesScaleData = ScaleTypes.PROJECTILES.getScaleData(entity);
-        ScaleData thirdPersonScaleData = ScaleTypes.THIRD_PERSON.getScaleData(entity);
+        //ScaleData thirdPersonScaleData = ScaleTypes.THIRD_PERSON.getScaleData(entity);
         ScaleData visibilityScaleData = ScaleTypes.VISIBILITY.getScaleData(entity);
 
         heightScaleData.setScale(scale);
         widthScaleData.setScale(scale);
         reachScaleData.setScale(1.3F);
         miningSpeedScaleData.setScale(1.3F);
-        dropsScaleData.setScale(scale);
-        heldItemScaleData.setScale(scale);
+        //dropsScaleData.setScale(scale);
+        //heldItemScaleData.setScale(scale);
         projectilesScaleData.setScale(scale);
-        thirdPersonScaleData.setScale(scale);
+        //thirdPersonScaleData.setScale(scale);
         visibilityScaleData.setScale(scale);
     }
 }

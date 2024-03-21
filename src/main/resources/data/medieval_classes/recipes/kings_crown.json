@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "= =",
+    "#*#",
+    " 0 "
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:enchanted_golden_apple"
+    },
+    "*": {
+      "item": "minecraft:dragon_egg"
+    },
+    "0": {
+      "item": "minecraft:golden_helmet"
+    },
+    "=": {
+      "item": "minecraft:gold_block"
+    }
+  },
+  "result": {
+    "item": "medieval_classes:kings_crown"
+  }
+}

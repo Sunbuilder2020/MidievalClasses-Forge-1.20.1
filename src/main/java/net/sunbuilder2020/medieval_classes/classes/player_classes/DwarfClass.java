@@ -65,10 +65,10 @@ public class DwarfClass {
         widthScaleData.setScale(scale);
         reachScaleData.setScale(0.8F);
         miningSpeedScaleData.setScale(1.3F);
-        dropsScaleData.setScale(scale);
-        heldItemScaleData.setScale(scale);
+        //dropsScaleData.setScale(scale);
+        //heldItemScaleData.setScale(scale);
         projectilesScaleData.setScale(scale);
-        thirdPersonScaleData.setScale(scale);
+        //thirdPersonScaleData.setScale(scale);
         visibilityScaleData.setScale(scale);
     }
 
