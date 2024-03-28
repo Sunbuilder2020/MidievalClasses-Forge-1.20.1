@@ -17,11 +17,6 @@ import org.slf4j.Logger;
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(MedievalClasses.MOD_ID)
 public class MedievalClasses {
-    /**
-     To do:
-        -Add Class abilities Info
-     */
-
     public static final String MOD_ID = "medieval_classes";
     private static final Logger LOGGER = LogUtils.getLogger();
     public MedievalClasses() {

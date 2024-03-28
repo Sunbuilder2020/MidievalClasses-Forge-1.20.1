@@ -27,8 +27,6 @@ public class ExecutionerClass {
      -You deal more damage the more players are around you, 20% if all online Players are around you in a 30 Block radius
     */
 
-    //To Test: More damage the more players are around him, hunger reduction
-
     @SubscribeEvent
     public static void onLivingHurt(LivingHurtEvent event) {
         if (event.getSource().getEntity() instanceof Player && event.getSource().is(DamageTypes.PLAYER_ATTACK)) {
@@ -53,29 +51,31 @@ public class ExecutionerClass {
                         entity.addEffect(new MobEffectInstance(MobEffects.WITHER, 100, 1));
                     }
 
-                    event.setAmount(event.getAmount() * (calculateNearbyPlayerPercentage((ServerPlayer) player, 30) * 20 + 1));
+                    event.setAmount(event.getAmount() * (onlinePlayersPercentageAround((ServerPlayer) player, 30) / 5 + 1));
                 }
             });
         }
     }
 
-    public static float calculateNearbyPlayerPercentage(ServerPlayer targetPlayer, double radius) {
+    public static float onlinePlayersPercentageAround(ServerPlayer targetPlayer, double radius) {
         MinecraftServer server = targetPlayer.getServer();
-        if (server == null) return 0.0F;
+        if (server == null) {
+            return 0.0F;
+        }
 
         List<ServerPlayer> allPlayers = server.getPlayerList().getPlayers();
 
-        int totalPlayers = Math.max(allPlayers.size() - 1, 1);
-
-        Vec3 targetPos = targetPlayer.position();
-
-        long nearbyPlayersCount = allPlayers.stream()
-                .filter(player -> player != targetPlayer)
-                .filter(player -> player.position().distanceToSqr(targetPos) <= radius * radius)
+        long playersWithinRadius = allPlayers.stream()
+                .filter(player -> !player.equals(targetPlayer))
+                .filter(player -> player.distanceToSqr(targetPlayer) <= radius * radius)
                 .count();
 
-        float percentage = (float) nearbyPlayersCount / totalPlayers * 100;
+        if (allPlayers.size() <= 1) {
+            return 0.0F;
+        }
 
-        return percentage;
+        float percentage = (float) playersWithinRadius / (allPlayers.size());
+
+        return percentage * 100.0F;
     }
 }

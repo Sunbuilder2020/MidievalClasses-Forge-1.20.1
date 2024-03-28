@@ -1,6 +1,7 @@
 package net.sunbuilder2020.medieval_classes.commands;
 
 import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.arguments.BoolArgumentType;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;
@@ -12,7 +13,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.Level;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -46,6 +46,10 @@ public class CustomCommands {
                         .then(Commands.literal("startNewSeason")
                                 .then(Commands.argument("seasonClassAmount", IntegerArgumentType.integer(0, 12))
                                         .executes(context -> startNewSeason(context, IntegerArgumentType.getInteger(context, "seasonClassAmount")))))
+                        .then(Commands.literal("setKing")
+                                .then(Commands.argument("playerName", EntityArgument.player())
+                                        .then(Commands.argument("option", BoolArgumentType.bool())
+                                                .executes(context -> executeSetKing(context, EntityArgument.getPlayer(context, "playerName"), BoolArgumentType.getBool(context, "option"))))))
         );
     }
 
@@ -214,6 +218,19 @@ public class CustomCommands {
         });
 
         context.getSource().sendSystemMessage(Component.literal(player.getName().getString() + "'s Profession is now set to " + option));
+
+        return 1;
+    }
+
+    private static int executeSetKing(CommandContext<CommandSourceStack> context, ServerPlayer player, boolean option) {
+        player.getCapability(PlayerClassesProvider.PLAYER_CLASSES).ifPresent(classes -> {
+            if (classes.getIsKing() == option) context.getSource().getPlayer().sendSystemMessage(Component.literal("You can only execute this command to change the Player's King status!").withStyle(ChatFormatting.RED));
+            else {
+                classes.setIsKing(option);
+
+                ClassManager.sendKingCrownedMessage(player, 0, null);
+            }
+        });
 
         return 1;
     }
