@@ -59,6 +59,7 @@ public class CustomCommands {
 
         dispatcher.register(
                 Commands.literal("classInfo")
+                        .requires(source -> source.hasPermission(0))
                         .then(Commands.literal("getSelf")
                                 .executes(context -> executeGetClassInfo(context, Objects.requireNonNull(context.getSource().getPlayer()))))
                         .then(Commands.literal("getClass")

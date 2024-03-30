@@ -1,5 +1,6 @@
 package net.sunbuilder2020.medieval_classes.classes;
 
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -11,9 +12,12 @@ import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.server.ServerStoppingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.sunbuilder2020.medieval_classes.MedievalClasses;
+
+import java.util.List;
 
 @Mod.EventBusSubscriber(modid = MedievalClasses.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ClassesEvents {
@@ -53,7 +57,7 @@ public class ClassesEvents {
                         ClassManager.startNewSeason(player.serverLevel(), 6);
                     }
 
-                    if (playerClasses.getClasses().isEmpty()) {
+                    if (ClassManager.getAllClasses().contains(playerClasses.getClasses())) {
                         String randomClass = ClassManager.getRandomValidClass((ServerLevel) event.getEntity().level());
 
                         ClassManager.setClass(player, randomClass, playerClasses.getIsKing(), "", -1);
@@ -142,5 +146,34 @@ public class ClassesEvents {
 
         ClassSeasonsProvider provider = new ClassSeasonsProvider();
         event.addCapability(new ResourceLocation(MedievalClasses.MOD_ID, "class_seasons"), provider);
+    }
+
+    @SubscribeEvent
+    public static void saveClassData(PlayerEvent.PlayerLoggedOutEvent event) {
+        if (!(event.getEntity() instanceof ServerPlayer)) {
+            return;
+        }
+
+        ServerPlayer player = (ServerPlayer) event.getEntity();
+        player.getCapability(PlayerClassesProvider.PLAYER_CLASSES).ifPresent(classes -> {
+            CompoundTag playerData = player.getPersistentData();
+            classes.saveNBTData(playerData);
+        });
+    }
+
+    @SubscribeEvent
+    public static void loadClassData(PlayerEvent.PlayerLoggedInEvent event) {
+        if (!(event.getEntity() instanceof ServerPlayer)) {
+            return;
+        }
+        ServerPlayer player = (ServerPlayer) event.getEntity();
+        player.getCapability(PlayerClassesProvider.PLAYER_CLASSES).ifPresent(classes -> {
+            CompoundTag playerData = player.getPersistentData();
+            classes.loadNBTData(playerData);
+        });
+    }
+
+    public static void onServerStop(ServerStoppingEvent event) {
+
     }
 }

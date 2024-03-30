@@ -258,7 +258,7 @@ public class ClassManager {
     public static List<String> getAllClasses() {
         List<String> classes = Arrays.asList(
                 PaladinClassID, ThiefClassID, BlacksmithClassID, DwarfClassID, MonkClassID, ElveClassID,
-                ExecutionerClassID, ArcherClassID, WizardClassID, GiantClassID, BerserkClassID, JesterClassID
+                ExecutionerClassID, ArcherClassID, WizardClassID, BerserkClassID, JesterClassID
         );
 
         return classes;
